@@ -31,7 +31,7 @@ return {
   },
   { "williamboman/mason-null-ls.nvim",
     dependencies = { "williamboman/mason.nvim",
-      "jose-elias-alvarez/null-ls.nvim", },
+      "nvimtools/none-ls.nvim", },
   },
 
   -- Autocompletion
@@ -51,6 +51,25 @@ return {
             -- Default
         })
     end
-}
+  },
+
+  --zk
+  { "zk-org/zk-nvim",
+    event = "BufReadPre",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("zk").setup({
+        picker = "telescope",
+        lsp = {
+          config = {
+            cmd  = { "zk", "lsp" },
+            name = "zk",
+            root_dir = vim.env.ZK_NOTEBOOK_DIR,
+          },
+          auto_attach = { enabled = true, filetypes = { "markdown" } },
+        },
+      })
+    end,
+  }
 
 }

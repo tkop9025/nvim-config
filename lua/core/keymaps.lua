@@ -37,8 +37,28 @@ keymap("n", "<leader>q", ":q<CR>", opts)
 keymap("n", "<leader>nh", ":nohl<CR>", opts)
 
 -- LSP
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Show diagnostic message" })
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
+keymap('n', '<leader>e', vim.diagnostic.open_float, { desc = "Show diagnostic message" })
+keymap('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+keymap('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
 
+
+--zk
+
+keymap("n", "<leader>zn",
+  "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>", opts)
+
+-- Browse all notes, newest first
+keymap("n", "<leader>zo",
+  "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
+
+-- Grep across notes (prompts for query)
+keymap("n", "<leader>zf",
+  "<Cmd>ZkNotes { match = { vim.fn.input('Search: ') } }<CR>", opts)
+
+-- Backlinks and forward links
+keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", opts)
+keymap("n", "<leader>zl", "<Cmd>ZkLinks<CR>", opts)
+
+-- Create daily note
+keymap("n", "<leader>zd", "<Cmd>silent !zk daily<CR><Cmd>e!<CR>", opts)
