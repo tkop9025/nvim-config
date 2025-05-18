@@ -56,6 +56,7 @@ return {
   --zk
   { "zk-org/zk-nvim",
     event = "BufReadPre",
+    version = false,
     dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
     config = function()
       require("zk").setup({
@@ -64,7 +65,6 @@ return {
           config = {
             cmd  = { "zk", "lsp" },
             name = "zk",
-            root_dir = vim.env.ZK_NOTEBOOK_DIR,
           },
           auto_attach = { enabled = true, filetypes = { "markdown" } },
         },

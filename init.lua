@@ -15,8 +15,9 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
 -- Plugin setup
+vim.env.PATH = "/opt/homebrew/bin:" .. vim.env.PATH
+
 require("lazy").setup("plugins")
 
 -- Core config
