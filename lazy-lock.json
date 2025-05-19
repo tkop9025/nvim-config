@@ -23,6 +23,6 @@
   "telescope-zoxide": { "branch": "main", "commit": "54bfe630bad08dc9891ec78c7cf8db38dd725c97" },
   "telescope.nvim": { "branch": "master", "commit": "b4da76be54691e854d3e0e02c36b0245f945c2c7" },
   "vague.nvim": { "branch": "main", "commit": "a14014bd886b28d45be4dbea72992ce60741dc5f" },
-  "yazi.nvim": { "branch": "main", "commit": "613b256ea9fed51027575d2818e4eba1ad1e3bc7" },
-  "zk-nvim": { "branch": "main", "commit": "38883a68d2f744dc071ff736fc5e8d68e1b321f6" }
+  "yazi.nvim": { "branch": "main", "commit": "a9e454e2219b6c2953d248b74ed24f0de5837c6e" },
+  "zk-nvim": { "branch": "main", "commit": "64d2b1f8f6f928eb2204b47e5e204dd31419eb85" }
 }

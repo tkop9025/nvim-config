@@ -28,3 +28,10 @@ require("core.colorscheme")
 require("core.lualine")
 require("core.lsp")
 require("core.treesitter")
+
+vim.cmd([[
+  augroup markdown_settings
+    autocmd!
+    autocmd FileType markdown setlocal suffixesadd+=.md path+=**
+  augroup END
+]])

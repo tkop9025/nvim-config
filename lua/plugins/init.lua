@@ -190,20 +190,10 @@ return {
 	--zk
 	{
 		"zk-org/zk-nvim",
-		event = "BufReadPre",
-		version = false,
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+		branch = "fix/client-nil-error",
+
 		config = function()
-			require("zk").setup({
-				picker = "telescope",
-				lsp = {
-					config = {
-						cmd = { "zk", "lsp" },
-						name = "zk",
-					},
-					auto_attach = { enabled = true, filetypes = { "markdown" } },
-				},
-			})
+			require("zk").setup()
 		end,
 	},
 }
