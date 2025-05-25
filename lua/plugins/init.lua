@@ -19,6 +19,17 @@ return {
 		cond = vim.fn.executable("make") == 1,
 	},
 
+	-- mini icons for markdown rendering
+	{ "echasnovski/mini.icons", version = false },
+	-- Markdown Rendering
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {},
+	},
+
 	-- LSP and language tools
 	{ "neovim/nvim-lspconfig" },
 	{ "williamboman/mason.nvim", config = true },
@@ -159,6 +170,7 @@ return {
 					{ name = "luasnip" },
 					{ name = "buffer" },
 					{ name = "path" },
+					{ name = "render-markdown" },
 				}),
 			})
 
@@ -193,7 +205,37 @@ return {
 		branch = "fix/client-nil-error",
 
 		config = function()
-			require("zk").setup()
+			require("zk").setup({
+				picker = "telescope",
+			})
 		end,
+	},
+
+	-- GOLF LFG
+	{ "vuciv/golf" },
+
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = {
+			disable_filetype = { "TelescopePrompt" },
+		},
+		config = function(_, opts)
+			local npairs = require("nvim-autopairs")
+			npairs.setup(opts)
+
+			local present, cmp = pcall(require, "cmp")
+			if present then
+				local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+				cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+			end
+		end,
+	},
+
+	{
+		"m4xshen/hardtime.nvim",
+		lazy = false,
+		dependencies = { "MunifTanjim/nui.nvim" },
+		opts = {},
 	},
 }

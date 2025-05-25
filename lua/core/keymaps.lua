@@ -48,8 +48,12 @@ keymap("n", "<leader>gf", vim.lsp.buf.definition, { desc = "Follow link with LSP
 keymap("n", "<leader>zn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>", opts)
 
 -- Browse all notes, newest first
-keymap("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
+keymap("n", "<leader>zo", "<Cmd>Telescope zk notes<CR>", opts)
 
+-- List recent notes
+keymap("n", "<leader>zr", function()
+	require("zk.commands").get("ZkNotes")({ sort = { "modified" } })
+end, { desc = "Zk: recently modified notes" })
 -- Grep across notes (prompts for query)
 keymap("n", "<leader>zf", "<Cmd>ZkNotes { match = { vim.fn.input('Search: ') } }<CR>", opts)
 
@@ -58,4 +62,10 @@ keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", opts)
 keymap("n", "<leader>zl", "<Cmd>ZkLinks<CR>", opts)
 
 -- Create daily note
-keymap("n", "<leader>zd", "<Cmd>silent !zk daily<CR><Cmd>e!<CR>", opts)
+keymap("n", "<leader>zd", function()
+	require("zk.commands").get("ZkNew")({
+		group = "daily",
+		dir = "journal/daily",
+		title = os.date("%Y-%m-%d"),
+	})
+end, { desc = "Open today's journal note" })
