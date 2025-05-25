@@ -19,6 +19,22 @@ return {
 		cond = vim.fn.executable("make") == 1,
 	},
 
+	{
+		"rcarriga/nvim-notify",
+		lazy = false,
+		priority = 10000,
+		config = function()
+			local notify = require("notify")
+			notify.setup({
+				render = "compact",
+				stages = "static",
+				timeout = 4000,
+				top_down = false,
+			})
+			vim.notify = notify
+		end,
+	},
+
 	-- mini icons for markdown rendering
 	{ "echasnovski/mini.icons", version = false },
 	-- Markdown Rendering
@@ -236,6 +252,28 @@ return {
 		"m4xshen/hardtime.nvim",
 		lazy = false,
 		dependencies = { "MunifTanjim/nui.nvim" },
-		opts = {},
+
+		opts = function()
+			local last = 0 -- last time we displayed a notice (ms)
+			local cooloff = 800 -- ignore new events for this long
+
+			return {
+				restriction_mode = "block",
+				max_time = 500,
+				max_count = 1,
+				allow_different_key = false,
+
+				-- keep the hint table active, but control the spam ourselves
+				notification = true,
+				timeout = 4000, -- how long the pop-up stays *once it shows*
+				callback = function(msg)
+					local now = vim.loop.now()
+					if now - last > cooloff then
+						vim.notify(msg, vim.log.levels.WARN, { title = "Hardtime", timeout = 4000 })
+						last = now
+					end
+				end,
+			}
+		end,
 	},
 }
