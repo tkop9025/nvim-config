@@ -26,7 +26,7 @@ return {
 		config = function()
 			local notify = require("notify")
 			notify.setup({
-				render = "compact",
+				render = "minimal",
 				stages = "static",
 				timeout = 4000,
 				top_down = false,
@@ -260,7 +260,7 @@ return {
 			return {
 				restriction_mode = "block",
 				max_time = 500,
-				max_count = 1,
+				max_count = 3,
 				allow_different_key = false,
 
 				-- keep the hint table active, but control the spam ourselves
