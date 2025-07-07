@@ -26,9 +26,6 @@ keymap("n", "<leader>fz", function()
 	})
 end, { desc = "Zoxide + Find Files" })
 
--- Yazi
-keymap("n", "<leader>fy", ":lua require('yazi').yazi()<CR>", opts)
-
 -- Save & quit
 keymap("n", "<leader>w", ":w<CR>", opts)
 keymap("n", "<leader>q", ":q<CR>", opts)

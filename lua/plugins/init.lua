@@ -202,7 +202,6 @@ return {
 	},
 
 	-- Utilities
-	{ "mikavilpas/yazi.nvim" },
 	{ "numToStr/Comment.nvim", config = true },
 	{
 		"kylechui/nvim-surround",
