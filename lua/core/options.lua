@@ -13,7 +13,7 @@ opt.termguicolors = true
 
 -- Editing
 opt.mouse = "a"
-opt.clipboard = "unnamedplus"
+-- opt.clipboard = ""
 opt.expandtab = true
 opt.tabstop = 2
 opt.shiftwidth = 2

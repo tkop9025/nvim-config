@@ -7,7 +7,6 @@ return {
 	-- UI
 	{ "nvim-lualine/lualine.nvim" },
 	{ "yazeed1s/minimal.nvim" },
-	{ "vague2k/vague.nvim", priority = 1000 },
 
 	-- Core tools
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
@@ -63,6 +62,11 @@ return {
 					"clangd",
 					"lua-language-server",
 					"marksman",
+					-- ✨ add these:
+					"html-lsp",
+					"css-lsp",
+					"json-lsp",
+					"typescript-language-server",
 
 					-- Formatters
 					"black",
@@ -101,6 +105,16 @@ return {
 					python = { "black" },
 					lua = { "stylua" },
 					markdown = { "prettier" },
+
+					-- ✨ add these:
+					html = { "prettier" },
+					css = { "prettier" },
+					javascript = { "prettier" },
+					javascriptreact = { "prettier" },
+					typescript = { "prettier" },
+					typescriptreact = { "prettier" },
+					json = { "prettier" },
+
 					c = { "clang_format" },
 					cpp = { "clang_format" },
 					sh = { "shfmt" },
@@ -246,33 +260,16 @@ return {
 			end
 		end,
 	},
-
+	-- Using lazy.nvim
 	{
-		"m4xshen/hardtime.nvim",
+		"metalelf0/black-metal-theme-neovim",
 		lazy = false,
-		dependencies = { "MunifTanjim/nui.nvim" },
-
-		opts = function()
-			local last = 0 -- last time we displayed a notice (ms)
-			local cooloff = 800 -- ignore new events for this long
-
-			return {
-				restriction_mode = "block",
-				max_time = 500,
-				max_count = 3,
-				allow_different_key = false,
-
-				-- keep the hint table active, but control the spam ourselves
-				notification = true,
-				timeout = 4000, -- how long the pop-up stays *once it shows*
-				callback = function(msg)
-					local now = vim.loop.now()
-					if now - last > cooloff then
-						vim.notify(msg, vim.log.levels.WARN, { title = "Hardtime", timeout = 4000 })
-						last = now
-					end
-				end,
-			}
+		priority = 1000,
+		config = function()
+			require("black-metal").setup({
+				-- optional configuration here
+			})
+			require("black-metal").load()
 		end,
 	},
 }
