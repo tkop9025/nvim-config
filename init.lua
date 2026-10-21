@@ -28,6 +28,7 @@ require("core.colorscheme")
 require("core.lualine")
 require("core.lsp")
 require("core.treesitter")
+require("luasnip.loaders.from_vscode").lazy_load()
 
 vim.cmd([[
   augroup markdown_settings

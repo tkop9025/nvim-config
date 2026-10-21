@@ -146,6 +146,15 @@ return {
 		end,
 	},
 
+	{ "rafamadriz/friendly-snippets" },
+
+	{
+		"L3MON4D3/LuaSnip",
+		dependencies = { "rafamadriz/friendly-snippets" },
+		version = "v2.*",
+		build = "make installd_jsregexp",
+	},
+
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -153,8 +162,8 @@ return {
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-cmdline",
-			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
+			"L3MON4D3/LuaSnip",
 		},
 		event = "InsertEnter",
 		config = function()
