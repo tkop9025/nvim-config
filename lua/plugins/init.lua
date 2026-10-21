@@ -1,5 +1,4 @@
 -- ~/.config/nvim/lua/plugins/init.lua
-
 return {
 	-- Plugin manager utilities
 	{ "nvim-lua/plenary.nvim" },
@@ -34,21 +33,23 @@ return {
 		end,
 	},
 
-	-- mini icons for markdown rendering
-	{ "echasnovski/mini.icons", version = false },
 	-- Markdown Rendering
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
-		opts = {},
+		opts = {
+			completions = { lsp = { enabled = true } },
+		},
 	},
+	-- mini icons for markdown rendering
+	{ "echasnovski/mini.icons", version = false },
 
 	-- LSP and language tools
 	{ "neovim/nvim-lspconfig" },
-	{ "williamboman/mason.nvim", config = true },
-	{ "williamboman/mason-lspconfig.nvim", config = true },
+	{ "mason-org/mason.nvim", config = true },
+	{ "mason-org/mason-lspconfig.nvim", config = true },
 
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -62,11 +63,11 @@ return {
 					"clangd",
 					"lua-language-server",
 					"marksman",
-					-- ✨ add these:
 					"html-lsp",
 					"css-lsp",
 					"json-lsp",
 					"typescript-language-server",
+					"bash-language-server",
 
 					-- Formatters
 					"black",
@@ -80,6 +81,7 @@ return {
 					"luacheck",
 					"markdownlint",
 					"shellcheck",
+					"cpplint",
 				},
 				auto_update = false,
 				run_on_start = true,
@@ -95,18 +97,17 @@ return {
 			require("conform").setup({
 				format_on_save = function(bufnr)
 					local max_size = 100 * 1024
-					local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+					local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
 					if ok and stats and stats.size > max_size then
 						return
 					end
-					return { timeout_ms = 1000, lsp_fallback = true }
+					return { timeout_ms = 1000, lsp_format = "fallback" }
 				end,
 				formatters_by_ft = {
 					python = { "black" },
 					lua = { "stylua" },
 					markdown = { "prettier" },
 
-					-- ✨ add these:
 					html = { "prettier" },
 					css = { "prettier" },
 					javascript = { "prettier" },
@@ -132,8 +133,8 @@ return {
 				python = { "flake8" },
 				lua = { "luacheck" },
 				markdown = { "markdownlint" },
-				c = { "clangtidy" },
-				cpp = { "clangtidy" },
+				c = { "cpplint" },
+				cpp = { "cpplint" },
 				sh = { "shellcheck" },
 			}
 
@@ -161,10 +162,20 @@ return {
 			local luasnip = require("luasnip")
 
 			cmp.setup({
+				preselect = cmp.PreselectMode.None,
+				completion = {
+					completeopt = "menu,menuone,noselect",
+				},
+				confirmation = {
+					get_commit_characters = function()
+						return {}
+					end,
+				},
 				window = {
 					completion = cmp.config.window.bordered({
 						winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel",
 						max_height = 10, -- limit number of visible items
+						completeopt = "menu,menuone,noselect",
 					}),
 					documentation = cmp.config.window.bordered(),
 				},
@@ -175,11 +186,11 @@ return {
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-Space>"] = cmp.mapping.complete(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<CR>"] = cmp.mapping.confirm({ select = false }),
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
-						elseif luasnip.expand_or_jumpable() then
+						elseif luasnip.expand_or_locally_jumpable() then
 							luasnip.expand_or_jump()
 						else
 							fallback()
@@ -188,7 +199,7 @@ return {
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
+						elseif luasnip.locally_jumpable(-1) then
 							luasnip.jump(-1)
 						else
 							fallback()
@@ -198,12 +209,11 @@ return {
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
-					{ name = "buffer" },
 					{ name = "path" },
-					{ name = "render-markdown" },
+				}, {
+					{ name = "buffer" },
 				}),
 			})
-
 			-- Optional: use completion in command-line mode (e.g. `:`)
 			cmp.setup.cmdline(":", {
 				mapping = cmp.mapping.preset.cmdline(),
@@ -227,21 +237,6 @@ return {
 			})
 		end,
 	},
-
-	--zk
-	{
-		"zk-org/zk-nvim",
-		branch = "fix/client-nil-error",
-
-		config = function()
-			require("zk").setup({
-				picker = "telescope",
-			})
-		end,
-	},
-
-	-- GOLF LFG
-	{ "vuciv/golf" },
 
 	{
 		"windwp/nvim-autopairs",

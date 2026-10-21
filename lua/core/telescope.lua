@@ -16,4 +16,3 @@ require("telescope").setup({
 -- Load the fzf-native extension
 pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "zoxide")
-pcall(require("telescope").load_extension, "zk")
